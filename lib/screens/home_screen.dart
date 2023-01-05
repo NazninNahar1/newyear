@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'custom_cicle_widget.dart';
+import 'custom_animated_button.dart';
 
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -112,60 +113,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               Expanded(
                   flex: 4,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: ontapped,
-                        child: AnimatedContainer(
-                          height: 50,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              color: boxColor,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          duration: Duration(milliseconds: 100),
-                          child: Row(
-                            children:[
-                              Stack(children: [
-                                Center(
-                                  child: Row(
-                                    children:  [
-                                      const SizedBox(width:100 ),
-                                      const Icon(Icons.power_settings_new,color: Colors.white,),
-                                      Text(text,style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w600),)
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 300,
-                                  child: AnimatedContainer(
-                                    duration:  Duration(milliseconds: 100),
-                                    alignment: Alignment(boxX,0),
-                                    child: Container(
-                                      margin: EdgeInsets.all(8),
-                                      padding: EdgeInsets.all(8),
-                                      height: 50,
-                                      width: 15,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
-                                      ),
-
-                                    ),
-                                  ),
-                                )
-
-                              ],),
-
-                            ] ,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),)
+                  child: CustomAnimatedButton(),
+              ),
             ],
           ),
         ),
