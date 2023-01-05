@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'custom_cicle_widget.dart';
+
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,6 +11,54 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  double boxX =-1;
+  bool istapped =false;
+  var boxColor =Color(0xff12B76A);
+  String text ='Turned off';
+
+  bool TapToggle(){
+    return istapped = !istapped;
+  }
+
+
+  void ontapped(){
+    setState(() {
+        MoveBox();
+        changeBoxColor();
+        changeText();
+        TapToggle();
+      print('tapped');
+    });
+  }
+  void MoveBox(){
+    setState(() {
+      if(istapped==false){
+        boxX=1;
+      }else{
+        boxX=-1;
+      }
+    });
+  }
+  void changeBoxColor(){
+    setState(() {
+      if(istapped==false){
+        boxColor = Color(0xfffd3535);
+      }else{
+        boxColor =Color(0xff12B76A);
+      }
+    });
+  }
+  void changeText(){
+    setState(() {
+
+      if(istapped==false){
+        text = 'Turn Off';
+      }else{
+        text = 'Turn On';
+      }
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +113,59 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                   flex: 4,
                   child: Row(
-                    children: [],
-                  ))
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: ontapped,
+                        child: AnimatedContainer(
+                          height: 50,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              color: boxColor,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          duration: Duration(milliseconds: 100),
+                          child: Row(
+                            children:[
+                              Stack(children: [
+                                Center(
+                                  child: Row(
+                                    children:  [
+                                      const SizedBox(width:100 ),
+                                      const Icon(Icons.power_settings_new,color: Colors.white,),
+                                      Text(text,style: const TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w600),)
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: 300,
+                                  child: AnimatedContainer(
+                                    duration:  Duration(milliseconds: 100),
+                                    alignment: Alignment(boxX,0),
+                                    child: Container(
+                                      margin: EdgeInsets.all(8),
+                                      padding: EdgeInsets.all(8),
+                                      height: 50,
+                                      width: 15,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white,
+                                      ),
+
+                                    ),
+                                  ),
+                                )
+
+                              ],),
+
+                            ] ,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),)
             ],
           ),
         ),
@@ -73,71 +174,4 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class CustomCircleWidget extends StatelessWidget {
-  final IconData icon;
-  final Color circleColor;
-  final Color circleBorderColor;
 
-
-  const CustomCircleWidget(
-      {super.key, required this.icon,
-      required this.circleColor,
-      required this.circleBorderColor,});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(
-                width: 2,
-                color: circleBorderColor,
-              ),
-            ),
-            child: const Center(
-                child: Text(
-              '00',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            )),
-          ),
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: circleColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: const Center(
-                child: Text(
-              '00',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            )),
-          ),
-          Align(
-            alignment: Alignment(1, .5),
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: circleBorderColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                  child: Icon(
-                icon,
-                color: circleColor,
-              )),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
